@@ -132,25 +132,30 @@ int main(){
     cout << "Possible Guesses: " << guessList.size() << ", Possible Answers: " << answerList.size() << endl;
     string userInput = "not";
     cout << curGuess.size(); 
+    int maxValInd = 0;
+    string bestGuess = "soare";
     while(userInput.find("exit") == string::npos){
-        getGuessValues(guessList, answerList, guessValues);
-        int maxValInd = 0;
-        for(int i = 0; i < guessValues.size(); i++){
-            if(guessValues.at(i) > guessValues.at(maxValInd)){
-                maxValInd = i;
-            } 
-        }
-        string bestGuess = guessList.at(maxValInd);
-        guessList.erase(guessList.begin() + maxValInd);
         cout << "The Best Guess is " << bestGuess << endl;
 
         cout << "Enter exit if done, if not enter the response as: _ for miss, Y for Yellow, G for Green" << endl;
         cin >> userInput;
 
-        guessValues.resize(0);
+        if(userInput.find("exit") == string::npos){
+            guessValues.resize(0);
 
-        updateWordLists(guessList, answerList, userInput, bestGuess);
-        cout << "Possible Guesses: " << guessList.size() << ", Possible Answers: " << answerList.size() << endl;
+            updateWordLists(guessList, answerList, userInput, bestGuess);
+            cout << "Possible Guesses: " << guessList.size() << ", Possible Answers: " << answerList.size() << endl;
+
+            getGuessValues(guessList, answerList, guessValues);
+            maxValInd = 0;
+            for(int i = 0; i < guessValues.size(); i++){
+                if(guessValues.at(i) > guessValues.at(maxValInd)){
+                    maxValInd = i;
+                } 
+            }
+            bestGuess = guessList.at(maxValInd);
+            guessList.erase(guessList.begin() + maxValInd);
+        }
     }
 
     return 0;
